@@ -12,7 +12,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,8 +37,8 @@ public class UserResource {
     @GET
     @ApiOperation(
             value = "Get all users",
-            notes = "Retrieves a complete list of users from the system. WARNING: This can be a very lengthy process and transfers a great deal of data over the wire.", response = List.class
-    )
+            notes = "Retrieves a complete list of users from the system. WARNING: This can be a very lengthy process and transfers a great deal of data over the wire.",
+            response = User.class)
     public Response getAllUsers() throws Exception {
 
         log.info("Retrieving all users...");
@@ -58,8 +57,8 @@ public class UserResource {
     @Path("/{userId}")
     @ApiOperation(
             value = "Get user by ID",
-            notes = "Retrieves a user by their unique ID.", response = User.class
-    )
+            notes = "Retrieves a user by their unique ID.",
+            response = User.class)
     public Response getUserById(@PathParam("userId") String userId) throws NotFoundException {
 
         log.info("Retrieving user '" + userId + "'...");

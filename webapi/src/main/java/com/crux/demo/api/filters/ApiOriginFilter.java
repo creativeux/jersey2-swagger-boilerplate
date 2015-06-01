@@ -13,7 +13,6 @@ import java.io.IOException;
  */
 public class ApiOriginFilter implements Filter {
 
-    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse) response;
         res.addHeader("Access-Control-Allow-Origin", "*");
@@ -22,13 +21,10 @@ public class ApiOriginFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-
-    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public void destroy() {
         //To change body of implemented methods use File | Settings | File Templates.
     }

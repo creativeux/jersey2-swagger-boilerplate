@@ -4,8 +4,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-    <display-name>Vanguard PSE Server</display-name>
-    <description>Vanguard PSE Server</description>
+    <display-name>Test API Server</display-name>
+    <description>Test API Server</description>
 
     <session-config>
         <session-timeout>30</session-timeout>
@@ -22,28 +22,23 @@
     <!-- API Jersey servlet -->
     <servlet>
         <servlet-name>APIDispatcher</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 
         <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>com.crux.demo.api.resources;com.wordnik.swagger.jersey.listing;</param-value>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>
+                com.wordnik.swagger.jaxrs.listing,
+                com.crux.demo.api.resources
+            </param-value>
         </init-param>
 
         <init-param>
-            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-name>jersey.config.server.wadl.disableWadl</param-name>
             <param-value>true</param-value>
         </init-param>
 
-        <!-- FOR DEBUGGING
-                <init-param>
-                    <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-                    <param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>
-                </init-param>
-                <init-param>
-                    <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-                     <param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>
-                </init-param>
-        -->
+        <load-on-startup>1</load-on-startup>
+
     </servlet>
 
     <servlet-mapping>
@@ -55,8 +50,8 @@
 
     <!-- Swagger servlet -->
     <servlet>
-        <servlet-name>DefaultJaxrsConfig</servlet-name>
-        <servlet-class>com.wordnik.swagger.jaxrs.config.DefaultJaxrsConfig</servlet-class>
+        <servlet-name>Jersey2Config</servlet-name>
+        <servlet-class>com.wordnik.swagger.jersey.config.JerseyJaxrsConfig</servlet-class>
 
         <init-param>
             <param-name>api.version</param-name>
@@ -71,6 +66,11 @@
         <init-param>
             <param-name>swagger.api.basepath</param-name>
             <param-value>http://localhost:8080/api</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>swagger.filter</param-name>
+            <param-value>com.crux.demo.api.filters.ApiAuthorizationFilterImpl</param-value>
         </init-param>
 
         <load-on-startup>2</load-on-startup>

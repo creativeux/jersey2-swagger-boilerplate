@@ -1,5 +1,7 @@
 package com.crux.demo.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
 /**
@@ -10,6 +12,7 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 
+@XmlRootElement(name = "user")
 public class User {
 
     private UUID id;
@@ -78,6 +81,7 @@ public class User {
     /**
      * Getters and Setters
      */
+    @XmlElement(name = "id")
     public UUID getId() {
         return id;
     }
@@ -86,6 +90,7 @@ public class User {
         this.id = id;
     }
 
+    @XmlElement(name = "firstName")
     public String getFirstName() {
         return firstName;
     }
@@ -94,6 +99,7 @@ public class User {
         this.firstName = firstName;
     }
 
+    @XmlElement(name = "lastName")
     public String getLastName() {
         return lastName;
     }
@@ -102,6 +108,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    @XmlElement(name = "email")
     public String getEmail() {
         return email;
     }
