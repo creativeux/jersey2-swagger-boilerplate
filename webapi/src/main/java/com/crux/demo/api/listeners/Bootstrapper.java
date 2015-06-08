@@ -60,7 +60,7 @@ public class Bootstrapper implements ServletContextListener {
         User.addUser(fakeUser);
 
         log.info("Successfully loaded mock data.");
-
+    }
 
 
     private void buildSwaggerInfo(ServletContext context) throws Exception {
