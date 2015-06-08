@@ -63,10 +63,6 @@ public class Bootstrapper implements ServletContextListener {
     }
 
 
-    *** THIS WILL BREAK THE CODE ***
-
-
-
     private void buildSwaggerInfo(ServletContext context) throws Exception {
 
         // TODO: Update Swagger details from demo.
