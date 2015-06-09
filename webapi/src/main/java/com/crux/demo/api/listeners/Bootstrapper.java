@@ -50,13 +50,13 @@ public class Bootstrapper implements ServletContextListener {
         log.info("Building in-memory database...");
 
         // Build a fake user and add them to the in-memory database of users.
-        User fakeUser = new User("Aaron", "Stone", "aaron.stone@effectiveui.com");
+        User fakeUser = new User("Aaron", "Stone", "aaron.stone@effectiveui.com", "EffectiveUI", "(303) 555-1234", "2162 Market St", "Denver, CO 80203");
         User.addUser(fakeUser);
 
-        fakeUser = new User("Zach", "Hendershot", "zach.hendershot@effectiveui.com");
+        fakeUser = new User("Zach", "Hendershot", "zach.hendershot@effectiveui.com", "EffectiveUI", "(303) 555-1234", "2162 Market St", "Denver, CO 80203");
         User.addUser(fakeUser);
 
-        fakeUser = new User("Nathan", "Ameye", "nathan.ameye@effectiveui.com");
+        fakeUser = new User("Nathan", "Ameye", "nathan.ameye@effectiveui.com", "EffectiveUI", "(303) 555-1234", "2162 Market St", "Denver, CO 80203");
         User.addUser(fakeUser);
 
         log.info("Successfully loaded mock data.");

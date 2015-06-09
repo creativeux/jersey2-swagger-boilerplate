@@ -19,6 +19,10 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String company;
+    private String phoneNumber;
+    private String address1;
+    private String address2;
 
     protected static ArrayList<User> users;
 
@@ -31,6 +35,16 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public User(String firstName, String lastName, String email, String company, String phoneNumber, String address1, String address2) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.company = company;
+        this.phoneNumber = phoneNumber;
+        this.address1 = address1;
+        this.address2 = address2;
     }
 
     /**
@@ -115,5 +129,41 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @XmlElement(name = "company")
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    @XmlElement(name = "phoneNumber")
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @XmlElement(name = "address1")
+    public String getAddress1() {
+        return address1;
+    }
+
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
+
+    @XmlElement(name = "address2")
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
     }
 }
