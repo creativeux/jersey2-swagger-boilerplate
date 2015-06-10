@@ -44,7 +44,7 @@ public class UserResource {
         log.info("Retrieving all users...");
 
         return Response.ok().entity(User.getUsers()).build();
-
+    }
 
 
     /**
