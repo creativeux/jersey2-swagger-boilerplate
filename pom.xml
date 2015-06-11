@@ -16,12 +16,12 @@
 
     <properties>
         <slf4j.version>1.6.1</slf4j.version>
-        <jersey.version>2.17</jersey.version>
+        <jersey.version>2.18</jersey.version>
         <servlet-api.version>3.0.1</servlet-api.version>
         <junit.version>3.8.1</junit.version>
         <swagger.version>1.5.2-M2</swagger.version>
         <jackson.version>2.5.3</jackson.version>
-        <jetty.version>9.2.10.v20150310</jetty.version>
+        <jetty.version>9.3.0.RC1</jetty.version>
         <swagger-ui.version>2.1.8-M1</swagger-ui.version>
     </properties>
 
@@ -36,7 +36,44 @@
     <modules>
         <module>model</module>
         <module>webapi</module>
+        <module>swagger-ui</module>
     </modules>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>codehaus-release-repo</id>
+            <name>Codehaus Release Repo</name>
+            <url>http://repo1.maven.org/maven2/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.googlecode.maven-download-plugin</groupId>
+                    <artifactId>download-maven-plugin</artifactId>
+                    <version>1.2.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>${jetty.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 
     <dependencyManagement>
@@ -81,6 +118,11 @@
                 <version>${jersey.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
@@ -94,11 +136,6 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-json-jackson</artifactId>
-                <version>2.17</version>
             </dependency>
             <!--  End Jersey dependencies -->
 

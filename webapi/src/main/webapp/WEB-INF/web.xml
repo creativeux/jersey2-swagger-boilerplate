@@ -43,7 +43,7 @@
 
     <servlet-mapping>
         <servlet-name>APIDispatcher</servlet-name>
-        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
     <!-- End API Jersey servlet -->
 
@@ -76,6 +76,7 @@
         <load-on-startup>2</load-on-startup>
     </servlet>
     <!-- End Swagger servlet -->
+
 
     <filter>
         <filter-name>ApiOriginFilter</filter-name>
