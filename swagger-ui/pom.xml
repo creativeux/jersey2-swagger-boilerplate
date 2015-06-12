@@ -77,18 +77,16 @@
                     </webApp>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
 
     <dependencies>
-        <!-- Swagger dependencies -->
-        <dependency>
-            <groupId>com.wordnik</groupId>
-            <artifactId>swagger-jersey2-jaxrs</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <!-- End Swagger dependencies -->
+
     </dependencies>
 
 
