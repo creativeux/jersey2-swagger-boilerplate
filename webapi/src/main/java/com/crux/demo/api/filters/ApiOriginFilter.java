@@ -1,6 +1,7 @@
 package com.crux.demo.api.filters;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
  * Time: 10:25 PM
  * To change this template use File | Settings | File Templates.
  */
+@WebFilter(urlPatterns="/*")
 public class ApiOriginFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

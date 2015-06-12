@@ -25,7 +25,8 @@ public class Bootstrapper implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        servletContextEvent.getServletContext();
+        ServletContext context = servletContextEvent.getServletContext();
+
 
         try {
 
