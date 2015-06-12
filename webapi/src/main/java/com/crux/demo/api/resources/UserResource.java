@@ -2,8 +2,8 @@ package com.crux.demo.api.resources;
 
 import com.crux.demo.api.exception.NotFoundException;
 import com.crux.demo.model.User;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.GET;

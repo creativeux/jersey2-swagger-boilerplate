@@ -1,18 +1,16 @@
 package com.crux.demo.api.listeners;
 
 import com.crux.demo.model.User;
-import com.wordnik.swagger.models.Contact;
-import com.wordnik.swagger.models.Info;
-import com.wordnik.swagger.models.License;
-import com.wordnik.swagger.models.Swagger;
-import com.wordnik.swagger.models.auth.ApiKeyAuthDefinition;
-import com.wordnik.swagger.models.auth.In;
-import com.wordnik.swagger.models.auth.OAuth2Definition;
+import io.swagger.models.Contact;
+import io.swagger.models.Info;
+import io.swagger.models.License;
+import io.swagger.models.Swagger;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +19,7 @@ import javax.servlet.ServletContextListener;
  * Time: 6:35 PM
  * To change this template use File | Settings | File Templates.
  */
+@WebListener
 public class Bootstrapper implements ServletContextListener {
     private static final Logger log = Logger.getLogger(Bootstrapper.class);
 
