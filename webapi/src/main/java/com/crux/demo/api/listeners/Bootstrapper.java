@@ -1,5 +1,6 @@
 package com.crux.demo.api.listeners;
 
+import com.crux.demo.model.ApiHost;
 import com.crux.demo.model.User;
 import io.swagger.models.Contact;
 import io.swagger.models.Info;
@@ -11,6 +12,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,12 +27,22 @@ import javax.servlet.annotation.WebListener;
 public class Bootstrapper implements ServletContextListener {
     private static final Logger log = Logger.getLogger(Bootstrapper.class);
 
+    private static final String API_PROPERTIES_FILE = "api.properties";
+    private static final String DEFAULT_HOST = "localhost";
+    private static final String DEFAULT_PORT = "8080";
+    private static final String DEFAULT_API_BASE_PATH = "/api";
+    private static final String ENV_API_LOCATION = "API_ADDR";
+
+    private static ApiHost apiHost = ApiHost.getInstance();
+
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         ServletContext context = servletContextEvent.getServletContext();
 
 
         try {
+
+            buildApiHostObj();
 
             buildMockData();
 
@@ -46,7 +60,7 @@ public class Bootstrapper implements ServletContextListener {
      *
      * @throws Exception
      */
-    private void buildMockData() throws Exception {
+    private static void buildMockData() throws Exception {
         log.info("Building in-memory database...");
 
         // Build a fake user and add them to the in-memory database of users.
@@ -63,7 +77,7 @@ public class Bootstrapper implements ServletContextListener {
     }
 
 
-    private void buildSwaggerInfo(ServletContext context) throws Exception {
+    private static void buildSwaggerInfo(ServletContext context) throws Exception {
 
         // TODO: Update Swagger details from demo.
         Info info = new Info()
@@ -86,6 +100,56 @@ public class Bootstrapper implements ServletContextListener {
 //                        .scope("read:pets", "read your pets")
 //                        .scope("write:pets", "modify pets in your account"));
         context.setAttribute("swagger", swagger);
+    }
+
+    private static void buildApiHostObj() {
+        Properties prop = new Properties();
+        InputStream input = null;
+
+        try {
+
+            input = Thread.currentThread().getContextClassLoader().getResourceAsStream(API_PROPERTIES_FILE);
+
+            if(input==null){
+                log.error("Unable to find API properties file.");
+                return;
+            }
+
+            prop.load(input);
+
+            // Check for the environment variable override first.
+            String host = System.getenv(ENV_API_LOCATION);
+
+            // If no variable exists, get from properties.  If nothing there, default to localhost.
+            if(host == null || host.length() == 0) {
+                host = prop.getProperty("host", DEFAULT_HOST);
+
+                if(host.length() == 0) {
+                    host = DEFAULT_HOST;
+                }
+            }
+
+            int port = Integer.valueOf(prop.getProperty("port", DEFAULT_PORT));
+            String apiBasePath = prop.getProperty("basePath", DEFAULT_API_BASE_PATH);
+
+            // Update the ApiHost object
+            apiHost.setHostAddr(host);
+            apiHost.setPort(port);
+            apiHost.setApiBasePath(apiBasePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        log.info("API location: " + apiHost.getHostAddr() + ":" + apiHost.getPort() + apiHost.getApiBasePath());
     }
 
 

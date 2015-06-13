@@ -2,7 +2,6 @@ package com.crux.demo.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.net.InetSocketAddress;
 
 /**
  * Created by aaronstone on 6/12/15.

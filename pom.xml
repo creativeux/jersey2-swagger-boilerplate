@@ -22,7 +22,7 @@
         <swagger.version>1.5.0</swagger.version>
         <jackson.version>2.5.3</jackson.version>
         <jetty.version>9.3.0.RC1</jetty.version>
-        <swagger-ui.version>2.1.8-M1</swagger-ui.version>
+        <swagger-ui.version>2.1.0</swagger-ui.version>
         <tomcat.plugin.version>1.1</tomcat.plugin.version>
     </properties>
 
