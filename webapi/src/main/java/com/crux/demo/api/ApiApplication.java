@@ -1,15 +1,15 @@
 package com.crux.demo.api;
 
+import com.crux.demo.api.resources.ApiHostResource;
+import com.crux.demo.model.ApiHost;
 import io.swagger.jaxrs.config.BeanConfig;
 import org.apache.log4j.Logger;
-import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -24,28 +24,22 @@ public class ApiApplication extends Application {
     private static final String API_PROPERTIES_FILE = "api.properties";
     private static final String DEFAULT_HOST = "localhost";
     private static final String DEFAULT_PORT = "8080";
+    private static final String DEFAULT_API_BASE_PATH = "/api";
     private static final String ENV_API_LOCATION = "API_ADDR";
 
-    private static String host;
-    private static int port;
-    private static String apiBasePath;
-
+    private static ApiHost apiHost = ApiHost.getInstance();
 
     public ApiApplication() {
 
         // Populate some important values.
-        getApiProps();
-
-        // Create the API address.
-        InetSocketAddress addr = InetSocketAddress.createUnresolved(host, port);
-        log.info("API location: " + addr.getHostName() + ":" + addr.getPort() + apiBasePath);
+        buildApiHostObj();
 
         // Configure Swagger.
         BeanConfig config = new BeanConfig();
         config.setVersion("1.0.2");
         config.setSchemes(new String[]{"http"});
-        config.setHost(addr.getHostName() + ":" + addr.getPort());
-        config.setBasePath(apiBasePath);
+        config.setHost(apiHost.getHostAddr() + ":" + apiHost.getPort());
+        config.setBasePath(apiHost.getApiBasePath());
         config.setResourcePackage("com.crux.demo.api.resources");
         //config.setFilterClass("com.crux.demo.api.filters.ApiAuthorizationFilterImpl");
         config.setScan(true);
@@ -59,7 +53,7 @@ public class ApiApplication extends Application {
 
         // Programmatically add API resources.
         resources.add(com.crux.demo.api.resources.UserResource.class);
-        resources.add(com.crux.demo.api.resources.SystemResource.class);
+        resources.add(ApiHostResource.class);
 
         // Swagger resources.
         resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
@@ -71,7 +65,7 @@ public class ApiApplication extends Application {
 
 
 
-    private static void getApiProps() {
+    private static void buildApiHostObj() {
         Properties prop = new Properties();
         InputStream input = null;
 
@@ -87,7 +81,7 @@ public class ApiApplication extends Application {
             prop.load(input);
 
             // Check for the environment variable override first.
-            host = System.getenv(ENV_API_LOCATION);
+            String host = System.getenv(ENV_API_LOCATION);
 
             // If no variable exists, get from properties.  If nothing there, default to localhost.
             if(host == null || host.length() == 0) {
@@ -98,8 +92,13 @@ public class ApiApplication extends Application {
                 }
             }
 
-            port = Integer.valueOf(prop.getProperty("port", DEFAULT_PORT));
-            apiBasePath = prop.getProperty("basePath", "/api");
+            int port = Integer.valueOf(prop.getProperty("port", DEFAULT_PORT));
+            String apiBasePath = prop.getProperty("basePath", DEFAULT_API_BASE_PATH);
+
+            // Update the ApiHost object
+            apiHost.setHostAddr(host);
+            apiHost.setPort(port);
+            apiHost.setApiBasePath(apiBasePath);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,6 +111,8 @@ public class ApiApplication extends Application {
                 }
             }
         }
+
+        log.info("API location: " + apiHost.getHostAddr() + ":" + apiHost.getPort() + apiHost.getApiBasePath());
     }
 
 }

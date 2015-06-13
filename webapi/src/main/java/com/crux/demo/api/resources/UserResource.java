@@ -38,7 +38,8 @@ public class UserResource {
     @ApiOperation(
             value = "Get all users",
             notes = "Retrieves a complete list of users from the system. WARNING: This can be a very lengthy process and transfers a great deal of data over the wire.",
-            response = User.class)
+            response = User.class,
+            responseContainer = "List")
     public Response getAllUsers() throws Exception {
 
         log.info("Retrieving all users...");
