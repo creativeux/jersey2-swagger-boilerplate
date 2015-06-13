@@ -29,7 +29,7 @@ public class SystemResource {
     private static final Logger log = Logger.getLogger(SystemResource.class);
 
     /**
-     * Get all IPs for the system.
+     * Get IP for the API.
      *
      * @return
      * @throws Exception
@@ -37,31 +37,14 @@ public class SystemResource {
     @GET
     @Path("/ip")
     @ApiOperation(
-            value = "Get IP addresses for all NICs",
-            notes = "Loops over all NICs and returns the IP address associated with each one.",
-            response = List.class)
-    public Response getIpAddresses() throws Exception {
+            value = "Get IP address for API",
+            notes = "Yup.",
+            response = String.class)
+    public Response getIpAddress() throws Exception {
 
-        log.info("Getting all IP addresses.");
+        log.info("Getting API address.");
 
-        List<String> ips = new ArrayList<String>();
-
-        Enumeration e = NetworkInterface.getNetworkInterfaces();
-        while(e.hasMoreElements())
-        {
-            NetworkInterface n = (NetworkInterface) e.nextElement();
-            Enumeration ee = n.getInetAddresses();
-            while (ee.hasMoreElements())
-            {
-                InetAddress i = (InetAddress) ee.nextElement();
-
-                if(i instanceof Inet4Address) {
-                    ips.add(i.getHostAddress());
-                }
-            }
-        }
-
-        return Response.ok().entity(ips).build();
+        return Response.ok().entity(System.getenv("API_ADDR")).build();
     }
 
 
