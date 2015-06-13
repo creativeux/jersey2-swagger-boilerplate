@@ -24,6 +24,7 @@ public class ApiApplication extends Application {
     private static final String API_PROPERTIES_FILE = "api.properties";
     private static final String DEFAULT_HOST = "localhost";
     private static final String DEFAULT_PORT = "8080";
+    private static final String ENV_API_LOCATION = "API_ADDR";
 
     private static String host;
     private static int port;
@@ -85,11 +86,18 @@ public class ApiApplication extends Application {
 
             prop.load(input);
 
-            host = prop.getProperty("host", DEFAULT_HOST);
+            // Check for the environment variable override first.
+            host = System.getenv(ENV_API_LOCATION);
 
-            if(host.length() == 0) {
-                host = DEFAULT_HOST;
+            // If no variable exists, get from properties.  If nothing there, default to localhost.
+            if(host == null || host.length() == 0) {
+                host = prop.getProperty("host", DEFAULT_HOST);
+
+                if(host.length() == 0) {
+                    host = DEFAULT_HOST;
+                }
             }
+
 
             port = Integer.valueOf(prop.getProperty("port", DEFAULT_PORT));
             apiBasePath = prop.getProperty("basePath", "/api");
