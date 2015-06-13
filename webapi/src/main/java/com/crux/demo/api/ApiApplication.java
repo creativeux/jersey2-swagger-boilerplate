@@ -42,7 +42,7 @@ public class ApiApplication extends Application {
         BeanConfig config = new BeanConfig();
         config.setVersion("1.0.2");
         config.setSchemes(new String[]{"http"});
-        config.setHost("localhost:" + addr.getPort());
+        config.setHost("104.239.158.17:" + addr.getPort());
         config.setBasePath(apiBasePath);
         config.setResourcePackage("com.crux.demo.api.resources");
         //config.setFilterClass("com.crux.demo.api.filters.ApiAuthorizationFilterImpl");
