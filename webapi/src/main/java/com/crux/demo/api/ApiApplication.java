@@ -42,7 +42,7 @@ public class ApiApplication extends Application {
         BeanConfig config = new BeanConfig();
         config.setVersion("1.0.2");
         config.setSchemes(new String[]{"http"});
-        config.setHost(addr.getHostName() + ":" + addr.getPort());
+        config.setHost("127.0.0.1:" + addr.getPort());
         config.setBasePath(apiBasePath);
         config.setResourcePackage("com.crux.demo.api.resources");
         //config.setFilterClass("com.crux.demo.api.filters.ApiAuthorizationFilterImpl");
@@ -57,6 +57,7 @@ public class ApiApplication extends Application {
 
         // Programmatically add API resources.
         resources.add(com.crux.demo.api.resources.UserResource.class);
+        resources.add(com.crux.demo.api.resources.SystemResource.class);
 
         // Swagger resources.
         resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
