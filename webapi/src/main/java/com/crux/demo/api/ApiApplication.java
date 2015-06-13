@@ -44,7 +44,7 @@ public class ApiApplication extends Application {
         BeanConfig config = new BeanConfig();
         config.setVersion("1.0.2");
         config.setSchemes(new String[]{"http"});
-        config.setHost("localhost:" + addr.getPort());
+        config.setHost(addr.getHostName() + ":" + addr.getPort());
         config.setBasePath(apiBasePath);
         config.setResourcePackage("com.crux.demo.api.resources");
         //config.setFilterClass("com.crux.demo.api.filters.ApiAuthorizationFilterImpl");
@@ -97,7 +97,6 @@ public class ApiApplication extends Application {
                     host = DEFAULT_HOST;
                 }
             }
-
 
             port = Integer.valueOf(prop.getProperty("port", DEFAULT_PORT));
             apiBasePath = prop.getProperty("basePath", "/api");
