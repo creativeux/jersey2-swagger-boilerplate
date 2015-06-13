@@ -8,8 +8,8 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.net.*;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
@@ -35,14 +35,14 @@ public class ApiApplication extends Application {
         getApiProps();
 
         // Create the API address.
-        InetSocketAddress addr = InetSocketAddress.createUnresolved(host, port);
+        InetSocketAddress addr = InetSocketAddress.createUnresolved(getIpAddress().getHostAddress(), port);
         log.info("API location: " + addr.getHostName() + ":" + addr.getPort() + apiBasePath);
 
         // Configure Swagger.
         BeanConfig config = new BeanConfig();
         config.setVersion("1.0.2");
         config.setSchemes(new String[]{"http"});
-        config.setHost("172.17.0.6:" + addr.getPort());
+        config.setHost(addr.getHostName() + ":" + addr.getPort());
         config.setBasePath(apiBasePath);
         config.setResourcePackage("com.crux.demo.api.resources");
         //config.setFilterClass("com.crux.demo.api.filters.ApiAuthorizationFilterImpl");
@@ -104,5 +104,30 @@ public class ApiApplication extends Application {
                 }
             }
         }
+    }
+
+
+    private static Inet4Address getIpAddress() {
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            while(e.hasMoreElements())
+            {
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+                while (ee.hasMoreElements())
+                {
+                    InetAddress i = (InetAddress) ee.nextElement();
+
+                    if(i instanceof Inet4Address && !i.getHostAddress().startsWith("127.") && !i.getHostAddress().startsWith("10.")) {
+                        return (Inet4Address)i;
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 }
