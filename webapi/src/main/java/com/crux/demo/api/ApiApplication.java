@@ -22,6 +22,7 @@ public class ApiApplication extends Application {
 
     private static final Logger log = Logger.getLogger(ApiApplication.class);
     private static final String API_PROPERTIES_FILE = "api.properties";
+    private static final String DEFAULT_HOST = "localhost";
     private static final String DEFAULT_PORT = "8080";
 
     private static String host;
@@ -35,14 +36,14 @@ public class ApiApplication extends Application {
         getApiProps();
 
         // Create the API address.
-        InetSocketAddress addr = InetSocketAddress.createUnresolved(getIpAddress().getHostAddress(), port);
+        InetSocketAddress addr = InetSocketAddress.createUnresolved(host, port);
         log.info("API location: " + addr.getHostName() + ":" + addr.getPort() + apiBasePath);
 
         // Configure Swagger.
         BeanConfig config = new BeanConfig();
         config.setVersion("1.0.2");
         config.setSchemes(new String[]{"http"});
-        config.setHost("104.239.158.17:" + addr.getPort());
+        config.setHost("localhost:" + addr.getPort());
         config.setBasePath(apiBasePath);
         config.setResourcePackage("com.crux.demo.api.resources");
         //config.setFilterClass("com.crux.demo.api.filters.ApiAuthorizationFilterImpl");
@@ -84,10 +85,10 @@ public class ApiApplication extends Application {
 
             prop.load(input);
 
-            host = prop.getProperty("host");
+            host = prop.getProperty("host", DEFAULT_HOST);
 
-            if(host != null && host.length() == 0) {
-                host = InetAddress.getLocalHost().getHostAddress();
+            if(host.length() == 0) {
+                host = DEFAULT_HOST;
             }
 
             port = Integer.valueOf(prop.getProperty("port", DEFAULT_PORT));
@@ -106,28 +107,4 @@ public class ApiApplication extends Application {
         }
     }
 
-
-    private static Inet4Address getIpAddress() {
-        try {
-            Enumeration e = NetworkInterface.getNetworkInterfaces();
-            while(e.hasMoreElements())
-            {
-                NetworkInterface n = (NetworkInterface) e.nextElement();
-                Enumeration ee = n.getInetAddresses();
-                while (ee.hasMoreElements())
-                {
-                    InetAddress i = (InetAddress) ee.nextElement();
-
-                    if(i instanceof Inet4Address && !i.getHostAddress().startsWith("127.") && !i.getHostAddress().startsWith("10.")) {
-                        return (Inet4Address)i;
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-
-    }
 }

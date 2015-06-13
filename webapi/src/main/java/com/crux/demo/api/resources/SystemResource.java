@@ -39,7 +39,7 @@ public class SystemResource {
     @ApiOperation(
             value = "Get IP addresses for all NICs",
             notes = "Loops over all NICs and returns the IP address associated with each one.",
-            response = User.class)
+            response = List.class)
     public Response getIpAddresses() throws Exception {
 
         log.info("Getting all IP addresses.");
